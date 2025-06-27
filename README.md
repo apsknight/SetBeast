@@ -37,6 +37,18 @@ A professional workout timer app built with React Native and Expo, designed spec
 
 ## Installation
 
+### 📱 **Get SetBeast on Your Phone**
+
+#### **Android (Ready Now!)**
+- **[Download APK](https://github.com/apsknight/SetBeast/releases)** - Direct install
+- **[Installation Guide](INSTALL.md)** - Step-by-step instructions
+
+#### **iOS (Coming Soon)**
+- **TestFlight Beta** - Join the beta program
+- **App Store** - Full release planned
+
+### 🛠️ **Developer Installation**
+
 ### Prerequisites
 - Node.js (v16 or higher)
 - Expo CLI
@@ -94,6 +106,40 @@ npx expo start
 - **Custom Hooks**: Reusable workout logic
 - **Component-Based**: Modular, maintainable code
 - **Synchronized Timers**: Single source of truth for time updates
+
+## Distribution
+
+### 🚀 **For Developers**
+- **[Distribution Guide](DISTRIBUTION.md)** - Complete build and release process
+- **[EAS Build Setup](eas.json)** - Production-ready build configuration
+- **[GitHub Actions](.github/workflows/)** - Automated CI/CD pipelines
+
+### 📦 **Build Commands**
+```bash
+# Build Android APK (for direct distribution)
+npm run build:android
+
+# Build iOS (for TestFlight)
+npm run build:ios
+
+# Build both platforms
+npm run build:all
+
+# Production builds (for app stores)
+npm run build:production
+```
+
+### 🏷️ **Release Process**
+```bash
+# Create new release
+./scripts/release.sh 1.0.1
+
+# This will:
+# - Update version in app.json
+# - Create git tag
+# - Trigger automated builds
+# - Generate GitHub release
+```
 
 ## Contributing
 
