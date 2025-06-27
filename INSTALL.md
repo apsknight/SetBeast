@@ -4,8 +4,8 @@ Get SetBeast on your phone and take your gym workouts to the next level!
 
 ## 🤖 Android Installation
 
-### Method 1: Direct APK (Recommended)
-1. **Download APK** from [GitHub Releases](https://github.com/apsknight/SetBeast/releases)
+### Method 1: Direct APK (Available Now!)
+1. **Download APK** from [EAS Build](https://expo.dev/accounts/apsknight/projects/setbeast/builds/dbbbdc23-6ac5-46d8-b2e9-64e626da9d40)
 2. **Enable Unknown Sources**:
    - Go to Settings → Security → Unknown Sources
    - Or Settings → Apps → Special Access → Install Unknown Apps

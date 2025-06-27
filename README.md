@@ -2,6 +2,12 @@
 
 A professional workout timer app built with React Native and Expo, designed specifically for gym workouts with customizable rest intervals.
 
+## 🚀 **Status: Ready for Download!**
+- **Android APK**: ✅ Available now
+- **Version**: 1.0.0 (First Release)
+- **Build**: Tested and ready for gym use
+- **iOS**: Coming soon via TestFlight
+
 ## Features
 
 ### 🎯 Core Functionality
@@ -39,9 +45,10 @@ A professional workout timer app built with React Native and Expo, designed spec
 
 ### 📱 **Get SetBeast on Your Phone**
 
-#### **Android (Ready Now!)**
-- **[Download APK](https://github.com/apsknight/SetBeast/releases)** - Direct install
+#### **Android (Available Now!)**
+- **[Download APK](https://expo.dev/accounts/apsknight/projects/setbeast/builds/dbbbdc23-6ac5-46d8-b2e9-64e626da9d40)** - Ready to install!
 - **[Installation Guide](INSTALL.md)** - Step-by-step instructions
+- **Version**: 1.0.0 - First release
 
 #### **iOS (Coming Soon)**
 - **TestFlight Beta** - Join the beta program
