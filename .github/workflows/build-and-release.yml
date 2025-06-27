@@ -1,0 +1,100 @@
+name: Build and Release SetBeast
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      platform:
+        description: 'Platform to build'
+        required: true
+        default: 'all'
+        type: choice
+        options:
+          - all
+          - android
+          - ios
+
+jobs:
+  build:
+    name: Build App
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        platform: [android, ios]
+        include:
+          - platform: android
+            build-command: eas build --platform android --profile preview --non-interactive
+          - platform: ios
+            build-command: eas build --platform ios --profile preview --non-interactive
+    
+    steps:
+      - name: 🏗 Setup repo
+        uses: actions/checkout@v4
+
+      - name: 🏗 Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18.x
+          cache: npm
+
+      - name: 🏗 Setup EAS
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: 📦 Install dependencies
+        run: npm ci
+
+      - name: 🚀 Build app
+        run: ${{ matrix.build-command }}
+        if: github.event.inputs.platform == 'all' || github.event.inputs.platform == matrix.platform || github.ref_type == 'tag'
+
+  create-release:
+    name: Create GitHub Release
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref_type == 'tag'
+    
+    steps:
+      - name: 🏗 Setup repo
+        uses: actions/checkout@v4
+
+      - name: 📝 Generate release notes
+        id: release_notes
+        run: |
+          echo "RELEASE_NOTES<<EOF" >> $GITHUB_OUTPUT
+          echo "## SetBeast v${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+          echo "" >> $GITHUB_OUTPUT
+          echo "### 🏋️‍♂️ Workout Timer Features:" >> $GITHUB_OUTPUT
+          echo "- Customizable rest intervals (1-4 minutes)" >> $GITHUB_OUTPUT
+          echo "- Live interval adjustment during workouts" >> $GITHUB_OUTPUT
+          echo "- Synchronized workout and interval timers" >> $GITHUB_OUTPUT
+          echo "- Custom beep sound with volume control" >> $GITHUB_OUTPUT
+          echo "- Animated circular progress indicator" >> $GITHUB_OUTPUT
+          echo "- Smart pause logic (workout continues, interval pauses)" >> $GITHUB_OUTPUT
+          echo "- Haptic feedback and vibration support" >> $GITHUB_OUTPUT
+          echo "- Dark theme optimized for gym use" >> $GITHUB_OUTPUT
+          echo "" >> $GITHUB_OUTPUT
+          echo "### 📱 Installation:" >> $GITHUB_OUTPUT
+          echo "- **Android**: Download the APK file below" >> $GITHUB_OUTPUT
+          echo "- **iOS**: Use TestFlight link (coming soon)" >> $GITHUB_OUTPUT
+          echo "" >> $GITHUB_OUTPUT
+          echo "### 🔊 Audio Setup:" >> $GITHUB_OUTPUT
+          echo "1. Add your custom beep.mp3 to assets folder" >> $GITHUB_OUTPUT
+          echo "2. Adjust volume in settings" >> $GITHUB_OUTPUT
+          echo "3. Test with your gym earphones" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: 🚀 Create Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: SetBeast ${{ github.ref }}
+          body: ${{ steps.release_notes.outputs.RELEASE_NOTES }}
+          draft: false
+          prerelease: false
