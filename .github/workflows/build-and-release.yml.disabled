@@ -1,3 +1,6 @@
+# This workflow is disabled until EXPO_TOKEN is configured
+# Rename to .yml to enable after setting up the token
+
 name: Build and Release SetBeast
 
 on:

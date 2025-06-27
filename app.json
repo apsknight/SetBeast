@@ -16,12 +16,18 @@
       "**/*"
     ],
     "ios": {
+      "bundleIdentifier": "com.apsknight.setbeast",
+      "buildNumber": "1",
       "supportsTablet": true,
       "infoPlist": {
-        "UIBackgroundModes": ["audio"]
+        "UIBackgroundModes": [
+          "audio"
+        ]
       }
     },
     "android": {
+      "package": "com.apsknight.setbeast",
+      "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#0a0a0a"
@@ -43,6 +49,11 @@
           "color": "#ff6b35"
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "6b826c3a-9161-4bd5-b668-c16be50dfd37"
+      }
+    }
   }
 }

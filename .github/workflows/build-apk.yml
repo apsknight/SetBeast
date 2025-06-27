@@ -1,4 +1,4 @@
-name: Build APK
+name: Build Instructions
 
 on:
   workflow_dispatch:
@@ -11,40 +11,64 @@ on:
       - 'package.json'
 
 jobs:
-  build-android:
-    name: Build Android APK
+  build-info:
+    name: Build Information
     runs-on: ubuntu-latest
     
     steps:
       - name: 🏗 Setup repo
         uses: actions/checkout@v4
 
-      - name: 🏗 Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 18.x
-          cache: npm
-
-      - name: 🏗 Setup EAS
-        uses: expo/expo-github-action@v8
-        with:
-          eas-version: latest
-          token: ${{ secrets.EXPO_TOKEN }}
-
-      - name: 📦 Install dependencies
-        run: npm ci
-
-      - name: 🚀 Build Android APK
-        run: eas build --platform android --profile preview --non-interactive
-
-      - name: 📱 Comment build info
+      - name: 📱 Build Instructions
         uses: actions/github-script@v7
-        if: github.event_name == 'push'
         with:
           script: |
+            const message = `
+            🏋️‍♂️ **SetBeast Build Ready!**
+            
+            **EAS Project:** \`@apsknight/setbeast\`
+            **Project ID:** \`6b826c3a-9161-4bd5-b668-c16be50dfd37\`
+            **Trigger:** ${{ github.event_name }}
+            **Commit:** ${context.sha.substring(0, 7)}
+            
+            ## 🚀 **Manual Build Commands:**
+            
+            ### Android APK (Ready to install)
+            \`\`\`bash
+            eas build --platform android --profile preview
+            \`\`\`
+            
+            ### iOS Build (TestFlight)
+            \`\`\`bash
+            eas build --platform ios --profile preview
+            \`\`\`
+            
+            ### Both Platforms
+            \`\`\`bash
+            eas build --platform all --profile preview
+            \`\`\`
+            
+            ## 📋 **Next Steps:**
+            1. Run build command locally
+            2. Wait for build completion (~5-10 minutes)
+            3. Download APK from [EAS Dashboard](https://expo.dev/accounts/apsknight/projects/setbeast/builds)
+            4. Test on physical device
+            5. Share APK link with users
+            
+            ## 🔧 **Enable Automated Builds:**
+            To enable GitHub Actions builds, add \`EXPO_TOKEN\` to repository secrets:
+            1. Get token: https://expo.dev/accounts/apsknight/settings/access-tokens
+            2. Add to: https://github.com/${context.repo.owner}/${context.repo.repo}/settings/secrets/actions
+            
+            ## 🔗 **Useful Links:**
+            - [EAS Dashboard](https://expo.dev/accounts/apsknight/projects/setbeast)
+            - [Build Documentation](https://docs.expo.dev/build/introduction/)
+            - [Distribution Guide](https://github.com/${context.repo.owner}/${context.repo.repo}/blob/main/DISTRIBUTION.md)
+            `;
+            
             github.rest.repos.createCommitComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
               commit_sha: context.sha,
-              body: '🚀 Android APK build triggered! Check EAS dashboard for download link.'
-            })
+              body: message
+            });
